@@ -1,0 +1,26 @@
+{
+  "name": "Sinhala Voice Model",
+  "tagline": "Speech AI for the Sinhala language",
+  "version": "0.1.0",
+  "build": 1,
+  "released": "2026-10-23",
+  "status": "research",
+  "android": {
+    "apk": null,
+    "playStore": null
+  },
+  "ios": {
+    "appStore": null
+  },
+  "changelog": [
+    {
+      "version": "0.1.0",
+      "date": "2026-10-23",
+      "notes": [
+        "Initial research release — Sinhala phoneme coverage",
+        "Code-switched Sinhala–English support",
+        "On-device inference optimisation"
+      ]
+    }
+  ]
+}
