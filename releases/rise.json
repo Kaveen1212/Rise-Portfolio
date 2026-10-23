@@ -1,0 +1,26 @@
+{
+  "name": "Rise",
+  "tagline": "Agentic social platform for professionals",
+  "version": "0.1.0",
+  "build": 1,
+  "released": "2026-10-23",
+  "status": "beta",
+  "android": {
+    "apk": null,
+    "playStore": null
+  },
+  "ios": {
+    "appStore": null
+  },
+  "changelog": [
+    {
+      "version": "0.1.0",
+      "date": "2026-10-23",
+      "notes": [
+        "Initial beta — agent pipeline, policy gate, human approvals",
+        "Stories, Instants, and Live rooms via LiveKit",
+        "Professional profiles and workspace feeds"
+      ]
+    }
+  ]
+}

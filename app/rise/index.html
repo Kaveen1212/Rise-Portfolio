@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Get Rise</title>
+<meta name="description" content="Rise — agentic social platform for professionals. Download for Android or iOS.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root {
+  --bg:        #0b0f1a;
+  --surface:   #131929;
+  --surface-hi:#1a2235;
+  --fg:        #dce4f5;
+  --fg-muted:  #7b87a1;
+  --accent:    #4a90e8;
+  --accent-warm: #f0a94e;
+  --green:     #34d399;
+  --border:    rgba(255,255,255,0.07);
+  --radius:    8px;
+  --font-d: 'Sora', system-ui, sans-serif;
+  --font-b: 'Plus Jakarta Sans', system-ui, sans-serif;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f4f6fc; --surface: #fff; --surface-hi: #eef1fa;
+    --fg: #111827; --fg-muted: #6b7280;
+    --accent: #2563eb; --accent-warm: #d97706;
+    --border: rgba(0,0,0,0.08);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f4f6fc; --surface: #fff; --surface-hi: #eef1fa;
+  --fg: #111827; --fg-muted: #6b7280;
+  --accent: #2563eb; --accent-warm: #d97706;
+  --border: rgba(0,0,0,0.08);
+  color-scheme: light;
+}
+:root[data-theme="dark"] { color-scheme: dark; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-b);
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOP BAR */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px max(16px, calc((100% - 1000px) / 2));
+  border-bottom: 1px solid var(--border);
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  color: var(--fg-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.back-link:hover { color: var(--fg); }
+.back-link::before { content: '←'; }
+
+.topbar-name {
+  font-family: var(--font-d);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--fg-muted);
+  letter-spacing: -0.01em;
+}
+
+/* MAIN */
+main {
+  flex: 1;
+  padding-inline: max(16px, calc((100% - 1000px) / 2));
+  padding-block: 60px 48px;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 64px;
+  align-items: start;
+}
+@media (max-width: 720px) {
+  main { grid-template-columns: 1fr; gap: 40px; padding-block: 40px 32px; }
+}
+
+/* LEFT — app info */
+.app-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 16px;
+}
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-warm);
+  display: inline-block;
+}
+.status-dot.live { background: var(--green); animation: pulse 2s infinite; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.app-icon {
+  width: 72px; height: 72px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #1a3a6b 0%, #0b1e42 100%);
+  border: 1px solid rgba(74,144,232,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 20px;
+  letter-spacing: -0.04em;
+}
+
+h1 {
+  font-family: var(--font-d);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-wrap: balance;
+  margin-bottom: 14px;
+}
+h1 em { font-style: normal; color: var(--accent); }
+
+.app-sub {
+  font-size: 1rem;
+  color: var(--fg-muted);
+  line-height: 1.65;
+  max-width: 480px;
+  margin-bottom: 36px;
+}
+
+/* VERSION BADGE */
+.version-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.version-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
+  border: 1px solid;
+  font-variant-numeric: tabular-nums;
+}
+.badge-beta {
+  background: rgba(240,169,78,0.1);
+  color: var(--accent-warm);
+  border-color: rgba(240,169,78,0.25);
+}
+.badge-research {
+  background: rgba(74,144,232,0.1);
+  color: var(--accent);
+  border-color: rgba(74,144,232,0.25);
+}
+.version-date { font-size: 0.8rem; color: var(--fg-muted); }
+
+/* DOWNLOAD BUTTONS */
+.download-section { display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
+
+.dl-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--fg);
+  text-decoration: none;
+  cursor: pointer;
+  font-family: var(--font-b);
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s;
+  position: relative;
+  overflow: hidden;
+}
+.dl-btn:not(:disabled):not(.disabled):hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 20px rgba(74,144,232,0.12);
+  transform: translateY(-1px);
+}
+.dl-btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.dl-btn.primary:hover {
+  box-shadow: 0 4px 24px rgba(74,144,232,0.35);
+}
+.dl-btn.disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.dl-icon {
+  width: 36px; height: 36px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.dl-btn.primary .dl-icon { background: rgba(255,255,255,0.2); }
+
+.dl-text { display: flex; flex-direction: column; flex: 1; }
+.dl-label { font-size: 0.7rem; color: var(--fg-muted); font-weight: 500; margin-bottom: 1px; }
+.dl-btn.primary .dl-label { color: rgba(255,255,255,0.7); }
+.dl-name { font-size: 0.9375rem; font-weight: 600; }
+
+.dl-badge-soon {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 100px;
+  background: rgba(255,255,255,0.08);
+  color: var(--fg-muted);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+/* REDIRECT NOTICE */
+#redirect-notice {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  font-size: 0.875rem;
+  color: var(--fg-muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#redirect-notice strong { color: var(--fg); }
+
+/* FEATURES */
+.features { display: flex; flex-direction: column; gap: 10px; }
+.feature-item {
+  display: flex; align-items: baseline; gap: 10px;
+  font-size: 0.9rem; color: var(--fg-muted);
+}
+.feature-item::before {
+  content: '—'; color: var(--border); flex-shrink: 0;
+}
+
+/* RIGHT — QR + changelog */
+.sidebar { display: flex; flex-direction: column; gap: 24px; }
+
+.qr-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+.qr-card-title { font-size: 0.8125rem; font-weight: 600; color: var(--fg); }
+.qr-card-sub { font-size: 0.75rem; color: var(--fg-muted); }
+
+#qr-canvas {
+  width: 140px; height: 140px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+  padding: 6px;
+}
+
+.changelog-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+}
+.changelog-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 18px;
+}
+.changelog-item { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.changelog-item:last-child { margin-bottom: 0; }
+.cl-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.cl-version {
+  font-family: var(--font-d);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+.cl-date { font-size: 0.75rem; color: var(--fg-muted); }
+.cl-notes { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.cl-notes li {
+  font-size: 0.8125rem;
+  color: var(--fg-muted);
+  display: flex; align-items: baseline; gap: 7px;
+}
+.cl-notes li::before { content: '·'; color: var(--accent); flex-shrink: 0; }
+
+/* FOOTER */
+footer {
+  padding: 20px max(16px, calc((100% - 1000px) / 2));
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-left { font-size: 0.8rem; color: var(--fg-muted); }
+.share-url {
+  font-size: 0.8rem;
+  font-family: monospace;
+  color: var(--fg-muted);
+  background: var(--surface-hi);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.copy-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+  font-family: var(--font-b);
+  padding: 0;
+  transition: opacity 0.15s;
+}
+.copy-btn:hover { opacity: 0.7; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; animation: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="../../" class="back-link">Kaveen Deshapriya</a>
+  <span class="topbar-name">Rise</span>
+</div>
+
+<main>
+  <!-- LEFT -->
+  <div>
+    <p class="app-eyebrow">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="app-status-label">Loading…</span>
+    </p>
+
+    <div class="app-icon">R</div>
+
+    <h1>Rise for <em>Professionals</em></h1>
+    <p class="app-sub" id="app-tagline">Agentic social platform where AI agents handle the routine work and people retain full approval authority over every post and action.</p>
+
+    <div class="version-row">
+      <span class="version-badge" id="version-badge">v—</span>
+      <span class="version-date" id="version-date"></span>
+    </div>
+
+    <div class="download-section" id="download-section">
+      <!-- Filled by JS -->
+    </div>
+
+    <div id="redirect-notice" hidden></div>
+
+    <div class="features" id="feature-list">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="sidebar">
+    <div class="qr-card" id="qr-card">
+      <p class="qr-card-title">Scan to open on your phone</p>
+      <div id="qr-canvas"></div>
+      <p class="qr-card-sub">Or share the link below</p>
+    </div>
+    <div class="changelog-card">
+      <p class="changelog-title">Release notes</p>
+      <div id="changelog-list"></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span class="footer-left">Rise · Kaveen Deshapriya</span>
+  <div class="share-url">
+    <span id="page-url"></span>
+    <button class="copy-btn" onclick="copyUrl()">Copy</button>
+  </div>
+</footer>
+
+<script>
+const PAGE_URL = window.location.href.split('?')[0].split('#')[0];
+document.getElementById('page-url').textContent = PAGE_URL;
+
+// QR Code
+try {
+  new QRCode(document.getElementById('qr-canvas'), {
+    text: PAGE_URL,
+    width: 140,
+    height: 140,
+    colorDark: '#000000',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+} catch(e) {}
+
+// Copy URL
+window.copyUrl = function() {
+  try {
+    navigator.clipboard.writeText(PAGE_URL).catch(() => selectText('page-url'));
+  } catch(_) { selectText('page-url'); }
+  const btn = document.querySelector('.copy-btn');
+  btn.textContent = 'Copied!';
+  setTimeout(() => btn.textContent = 'Copy', 2000);
+};
+function selectText(id) {
+  const el = document.getElementById(id);
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+// Detect platform
+const ua = navigator.userAgent;
+const isAndroid = /android/i.test(ua);
+const isIOS = /iphone|ipad|ipod/i.test(ua);
+
+// Fetch release data
+fetch('../../releases/rise.json')
+  .then(r => r.json())
+  .then(data => {
+    // Status
+    const statusDot = document.getElementById('status-dot');
+    const statusLabel = document.getElementById('app-status-label');
+    if (data.status === 'live') {
+      statusDot.className = 'status-dot live';
+      statusLabel.textContent = 'Available now';
+    } else if (data.status === 'beta') {
+      statusLabel.textContent = 'Beta · Invite only';
+    } else {
+      statusLabel.textContent = 'Research · Coming soon';
+    }
+
+    // Version
+    const badge = document.getElementById('version-badge');
+    badge.textContent = 'v' + data.version;
+    badge.className = 'version-badge ' + (data.status === 'beta' ? 'badge-beta' : data.status === 'live' ? 'badge-live' : 'badge-research');
+    const d = new Date(data.released);
+    document.getElementById('version-date').textContent = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Tagline
+    if (data.tagline) document.getElementById('app-tagline').textContent = data.tagline;
+
+    // Download buttons
+    const androidUrl = data.android?.apk || data.android?.playStore;
+    const iosUrl = data.ios?.appStore;
+    const section = document.getElementById('download-section');
+
+    function makeBtn(icon, label, name, url, isPrimary) {
+      const hasUrl = !!url;
+      const a = document.createElement(hasUrl ? 'a' : 'div');
+      if (hasUrl) { a.href = url; }
+      a.className = 'dl-btn' + (isPrimary && hasUrl ? ' primary' : '') + (hasUrl ? '' : ' disabled');
+      a.innerHTML = `
+        <div class="dl-icon">${icon}</div>
+        <div class="dl-text">
+          <span class="dl-label">${label}</span>
+          <span class="dl-name">${name}</span>
+        </div>
+        ${!hasUrl ? '<span class="dl-badge-soon">Coming soon</span>' : ''}
+      `;
+      return a;
+    }
+
+    const androidPrimary = isAndroid;
+    const iosPrimary = isIOS && !isAndroid;
+
+    section.appendChild(makeBtn('🤖', 'Download for', 'Android', androidUrl, androidPrimary));
+    section.appendChild(makeBtn('', 'Download for', 'iOS & iPadOS', iosUrl, iosPrimary));
+
+    // Smart redirect
+    const notice = document.getElementById('redirect-notice');
+    let redirectUrl = null;
+    if (isAndroid && androidUrl) redirectUrl = androidUrl;
+    else if (isIOS && iosUrl) redirectUrl = iosUrl;
+
+    if (redirectUrl) {
+      let secs = 3;
+      notice.hidden = false;
+      notice.innerHTML = `<span>📲</span> <span>Redirecting you to the app in <strong id="countdown">${secs}</strong>s…</span>`;
+      const tick = setInterval(() => {
+        secs--;
+        const el = document.getElementById('countdown');
+        if (el) el.textContent = secs;
+        if (secs <= 0) { clearInterval(tick); window.location.href = redirectUrl; }
+      }, 1000);
+    }
+
+    // Changelog
+    const cl = document.getElementById('changelog-list');
+    (data.changelog || []).forEach(entry => {
+      const item = document.createElement('div');
+      item.className = 'changelog-item';
+      const d = new Date(entry.date);
+      const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      const noteItems = (entry.notes || []).map(n => `<li>${n}</li>`).join('');
+      item.innerHTML = `
+        <div class="cl-header">
+          <span class="cl-version">v${entry.version}</span>
+          <span class="cl-date">${dateStr}</span>
+        </div>
+        <ul class="cl-notes">${noteItems}</ul>
+      `;
+      cl.appendChild(item);
+    });
+
+    // Features from first changelog entry
+    const featureList = document.getElementById('feature-list');
+    if (data.changelog?.[0]?.notes) {
+      data.changelog[0].notes.forEach(n => {
+        const el = document.createElement('div');
+        el.className = 'feature-item';
+        el.textContent = n;
+        featureList.appendChild(el);
+      });
+    }
+  })
+  .catch(() => {
+    document.getElementById('app-status-label').textContent = 'Rise';
+    document.getElementById('version-badge').textContent = 'Coming soon';
+  });
+</script>
+</body>
+</html>
