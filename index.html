@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Kaveen Deshapriya</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+<style>
+/*
+  Layout: sticky nav → hero → projects grid (2-col) → about strip → footer
+  --bg / surface / fg / accent-blue / accent-amber / border
+*/
+
+:root {
+  --bg:        #0b0f1a;
+  --surface:   #131929;
+  --surface-hi:#1a2235;
+  --fg:        #dce4f5;
+  --fg-muted:  #7b87a1;
+  --accent:    #4a90e8;
+  --accent-warm: #f0a94e;
+  --border:    rgba(255,255,255,0.07);
+  --radius:    6px;
+  --font-display: 'Sora', system-ui, sans-serif;
+  --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:        #f4f6fc;
+    --surface:   #ffffff;
+    --surface-hi:#eef1fa;
+    --fg:        #111827;
+    --fg-muted:  #6b7280;
+    --accent:    #2563eb;
+    --accent-warm: #d97706;
+    --border:    rgba(0,0,0,0.08);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg:        #f4f6fc;
+  --surface:   #ffffff;
+  --surface-hi:#eef1fa;
+  --fg:        #111827;
+  --fg-muted:  #6b7280;
+  --accent:    #2563eb;
+  --accent-warm: #d97706;
+  --border:    rgba(0,0,0,0.08);
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-inline: max(16px, calc((100% - 1080px) / 2));
+  padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px);
+}
+
+/* ── NAV ───────────────────────────────── */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.nav-wordmark span {
+  color: var(--accent);
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--fg-muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.nav-links a:hover { color: var(--fg); }
+
+.nav-cta {
+  background: var(--accent);
+  color: #fff !important;
+  padding: 7px 16px;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.nav-cta:hover { opacity: 0.85; }
+
+/* ── HERO ──────────────────────────────── */
+.hero {
+  padding-block: 80px 72px;
+  max-width: 720px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-warm);
+  margin-bottom: 20px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent-warm);
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  margin-bottom: 22px;
+  color: var(--fg);
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.hero p {
+  font-size: 1.0625rem;
+  color: var(--fg-muted);
+  max-width: 540px;
+  line-height: 1.7;
+}
+
+/* ── SECTION HEADING ───────────────────── */
+.section {
+  padding-block: 64px;
+}
+
+.section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── PROJECT GRID ──────────────────────── */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .project-grid { grid-template-columns: 1fr; }
+}
+
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.project-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent) inset,
+              0 8px 32px rgba(74, 144, 232, 0.08);
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 40% at 90% 0%, rgba(74,144,232,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.project-card.featured {
+  grid-column: span 2;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+@media (max-width: 640px) {
+  .project-card.featured {
+    grid-column: span 1;
+    flex-direction: column;
+  }
+}
+
+.project-card.featured::before {
+  background: radial-gradient(ellipse 50% 80% at 100% 50%, rgba(74,144,232,0.08) 0%, transparent 70%);
+}
+
+.project-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--surface-hi);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.project-meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.project-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.project-name {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 100px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge-building {
+  background: rgba(240, 169, 78, 0.12);
+  color: var(--accent-warm);
+  border: 1px solid rgba(240, 169, 78, 0.25);
+}
+
+.badge-research {
+  background: rgba(74, 144, 232, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(74, 144, 232, 0.25);
+}
+
+.badge-live {
+  background: rgba(52, 211, 153, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.25);
+}
+
+.project-desc {
+  font-size: 0.9375rem;
+  color: var(--fg-muted);
+  line-height: 1.65;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.tag {
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  background: var(--surface-hi);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-weight: 500;
+}
+
+.project-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 4px;
+}
+
+.project-features li {
+  font-size: 0.875rem;
+  color: var(--fg-muted);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.project-features li::before {
+  content: '—';
+  color: var(--border);
+  flex-shrink: 0;
+  font-weight: 300;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  margin-top: auto;
+  transition: gap 0.15s;
+}
+
+.project-link:hover { gap: 10px; }
+
+/* featured card sidebar */
+.featured-sidebar {
+  flex-shrink: 0;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .featured-sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; }
+}
+
+.stat-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  font-weight: 500;
+}
+
+/* ── ABOUT STRIP ───────────────────────── */
+.about-strip {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding-block: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .about-strip { grid-template-columns: 1fr; gap: 24px; }
+}
+
+.about-name {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 10px;
+}
+
+.about-name span { color: var(--accent); }
+
+.about-text {
+  font-size: 0.9375rem;
+  color: var(--fg-muted);
+  line-height: 1.7;
+}
+
+.about-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.stack-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stack-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.stack-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pill {
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--surface-hi);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 8px;
+  color: var(--fg);
+}
+
+/* ── FOOTER ────────────────────────────── */
+footer {
+  padding-block: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-left {
+  font-size: 0.8125rem;
+  color: var(--fg-muted);
+}
+
+.footer-left strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.footer-links a {
+  font-size: 0.8125rem;
+  color: var(--fg-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.footer-links a:hover { color: var(--fg); }
+
+/* ── THEME TOGGLE ──────────────────────── */
+.theme-btn {
+  background: var(--surface-hi);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--fg-muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s, border-color 0.15s;
+  font-family: var(--font-body);
+}
+
+.theme-btn:hover { color: var(--fg); border-color: var(--accent); }
+
+/* ── FOCUS ─────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-wordmark">Kaveen<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="mailto:kaveend@therisevillage.com" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Sri Lanka &nbsp;·&nbsp; Builder</p>
+  <h1>Agentic systems<br>for <em>real work.</em></h1>
+  <p>Building AI-native tools that handle the clerical work so professionals can focus on what only people can do — judgment, relationships, and decisions that matter.</p>
+</section>
+
+<!-- PROJECTS -->
+<section class="section" id="projects">
+  <p class="section-label">Projects</p>
+
+  <div class="project-grid">
+
+    <!-- Rise — featured, spans both columns -->
+    <div class="project-card featured">
+      <div class="project-meta">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+          <div class="project-icon">↑</div>
+          <div>
+            <div class="project-header">
+              <span class="project-name">Rise</span>
+              <span class="badge badge-building">Building</span>
+            </div>
+            <div style="font-size:0.8rem;color:var(--fg-muted);margin-top:2px;font-weight:500;">Agentic social platform for professionals</div>
+          </div>
+        </div>
+
+        <p class="project-desc">
+          A professional network where AI agents handle posting, trend analysis, moderation, and engagement — while humans retain full approval authority over every action the agents propose. Nothing reaches the feed until a person decides.
+        </p>
+
+        <ul class="project-features">
+          <li>Deterministic policy gate — agent proposals queued for human review before publishing</li>
+          <li>Transactional outbox + idempotency keys for reliable async workflows</li>
+          <li>Live rooms via LiveKit, Stories, and Instants for rich professional content</li>
+          <li>Row-level security on all private workspace data</li>
+        </ul>
+
+        <div class="project-tags" style="margin-top:8px;">
+          <span class="tag">Rust</span>
+          <span class="tag">Flutter</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">Redis</span>
+          <span class="tag">LiveKit</span>
+          <span class="tag">Claude API</span>
+        </div>
+      </div>
+
+      <div class="featured-sidebar">
+        <div class="stat-block">
+          <span class="stat-value">10</span>
+          <span class="stat-label">Specialised agents</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-value">0</span>
+          <span class="stat-label">Model calls on feed reads</span>
+        </div>
+        <div class="stat-block">
+          <span class="stat-value">100%</span>
+          <span class="stat-label">Human-approved publishes</span>
+        </div>
+        <div style="height:1px;background:var(--border);"></div>
+        <div class="stat-block">
+          <span class="stat-value badge badge-building" style="font-size:0.75rem;padding:5px 10px;font-variant-numeric:normal;">In Progress</span>
+          <span class="stat-label" style="margin-top:6px;">Vercel deployment coming</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sinhala Voice Model -->
+    <div class="project-card">
+      <div class="project-icon">🎙</div>
+      <div class="project-meta">
+        <div class="project-header">
+          <span class="project-name">Sinhala Voice Model</span>
+          <span class="badge badge-research">Research</span>
+        </div>
+        <p class="project-desc">
+          A speech model trained for the Sinhala language — enabling voice interfaces, transcription, and voice commands in Sri Lanka's primary language, where existing models fall short.
+        </p>
+        <ul class="project-features">
+          <li>Native Sinhala phoneme coverage including retroflex consonants</li>
+          <li>Designed for low-latency on-device inference</li>
+          <li>Supports code-switched Sinhala–English speech patterns</li>
+        </ul>
+        <div class="project-tags">
+          <span class="tag">Speech AI</span>
+          <span class="tag">Sinhala NLP</span>
+          <span class="tag">Sri Lanka</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Placeholder slot -->
+    <div class="project-card" style="border-style:dashed;opacity:0.5;justify-content:center;align-items:center;min-height:180px;">
+      <div style="text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center;">
+        <div style="font-size:1.25rem;color:var(--fg-muted);">+</div>
+        <p style="font-size:0.875rem;color:var(--fg-muted);font-style:italic;">Next project</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-strip" id="about">
+  <div>
+    <p class="about-name">Kaveen <span>Deshapriya</span></p>
+    <p class="about-text">
+      Building AI-native products in Sri Lanka. Focused on agentic systems — where agents propose, people approve, and every action is auditable. The goal: software that makes professionals more effective, not software that replaces their judgment.
+    </p>
+    <p class="about-text" style="margin-top:12px;">
+      Open to collaborations, partnerships, and early-access pilots. Reach me at&nbsp; <strong style="color:var(--fg);">kaveend@therisevillage.com</strong>
+    </p>
+  </div>
+  <div class="about-stack">
+    <div class="stack-row">
+      <span class="stack-label">Backend</span>
+      <div class="stack-pills">
+        <span class="pill">Rust</span>
+        <span class="pill">Axum</span>
+        <span class="pill">SQLx</span>
+        <span class="pill">PostgreSQL</span>
+        <span class="pill">Redis</span>
+      </div>
+    </div>
+    <div class="stack-row">
+      <span class="stack-label">Mobile</span>
+      <div class="stack-pills">
+        <span class="pill">Flutter</span>
+        <span class="pill">Dart</span>
+        <span class="pill">Riverpod</span>
+      </div>
+    </div>
+    <div class="stack-row">
+      <span class="stack-label">AI / Infra</span>
+      <div class="stack-pills">
+        <span class="pill">Claude API</span>
+        <span class="pill">LiveKit</span>
+        <span class="pill">Docker</span>
+        <span class="pill">Vercel</span>
+      </div>
+    </div>
+    <div class="stack-row">
+      <span class="stack-label">Language</span>
+      <div class="stack-pills">
+        <span class="pill">Sinhala</span>
+        <span class="pill">English</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-left">© 2026 <strong>Kaveen Deshapriya</strong> · Sri Lanka</p>
+  <ul class="footer-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="mailto:kaveend@therisevillage.com">Email</a></li>
+  </ul>
+  <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle colour theme">
+    <span id="theme-icon">☀</span> <span id="theme-label">Light</span>
+  </button>
+</footer>
+
+<script>
+(function () {
+  const root = document.documentElement;
+  let current = 'dark';
+
+  try {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') { current = saved; root.dataset.theme = saved; }
+  } catch (_) {}
+
+  function syncBtn() {
+    const isDark = current === 'dark' ||
+      (current !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+    document.getElementById('theme-icon').textContent = isDark ? '☀' : '☾';
+    document.getElementById('theme-label').textContent = isDark ? 'Light' : 'Dark';
+  }
+
+  window.toggleTheme = function () {
+    current = (root.dataset.theme === 'light') ? 'dark' : 'light';
+    root.dataset.theme = current;
+    try { localStorage.setItem('theme', current); } catch (_) {}
+    syncBtn();
+  };
+
+  syncBtn();
+})();
+</script>
+
+</body>
+</html>
